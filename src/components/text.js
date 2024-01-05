@@ -20,8 +20,8 @@ export default function Text(props){
 
 
 
-  console.debug("text props", props)
   let debug = false
+  if(debug) console.debug("text props", props)
 
   let [textonly, setText] = useState(props.value ? props.value : "")
   let [errRequired, setErrRequired] = useState(props.required === true ? false : true)
@@ -43,7 +43,29 @@ export default function Text(props){
       }else{
         setErrRequired(true)
         setTextClass("form-control is-invalid")
-    }      
+        props.showAlert("Please input correct values", "Validation:", "danger") //it calls showalert function from app.js
+    }  
+    
+  //  props.validateClick(false)
+  }
+
+  //validateComponent
+  console.debug("props.validateComponent",props.validateComponent)
+  if(props.validateComponent === true ? true : false){
+    validateText()
+  }
+
+  //copy text
+  const copyText = () => {
+    if(debug) console.debug("copyText called")
+    navigator.clipboard.writeText(textonly)   
+  }
+
+  //removeExtra spaces
+  const removeExtraSpace = () => {
+    if(debug) console.debug("removeExtraSpace called")
+    let newText = textonly.split(/[ ]+/);   
+    setText(newText.join(' '))       
   }
 
   //set Initial value
@@ -68,18 +90,26 @@ export default function Text(props){
           {props.hint ? <div><small className="text-primary fst-italic">{props.hint}</small></div>  : ""  }  
           {(props.required && errRequired) ? <div><small className="text-danger">This field is required</small></div>  : ""  }  
         </div>
-          <div className='pb-2'>
+        <div className='row'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={validateText}>Validate Text</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setInit}>set init value</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setValue}>set value</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setValue}>Blank</button>
           </div>
+          <div className='pb-2 col-3'>
+          <button className='btn btn-primary' onClick={copyText}>copy Text</button>
+          </div>
+          <div className='pb-2 col-3'>
+          <button className='btn btn-primary' onClick={removeExtraSpace}>remove Extra Space</button>
+          </div>
+      </div>
       </div>
     </>
   );

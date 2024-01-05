@@ -20,8 +20,8 @@ Number.defaultProps = {
 
 export default function Number(props){
 
-    console.debug("number props", props)
     let debug = false
+    if(debug) console.debug("number props", props)
 
     let [num, setNum] = useState(props.value ? props.value : "")
     let [errRequired, setErrRequired] = useState(props.required === true ? false : true)
@@ -62,6 +62,11 @@ export default function Number(props){
         }        
     }
 
+      //validateComponent
+        if(props.validateComponent){
+            validateNumber()
+        }
+
     //set Initial value
     const setInit = () => {
         if(debug) console.debug("setInit called")
@@ -86,18 +91,21 @@ export default function Number(props){
                 {min ? <div><small className="text-danger">Please enter value greater than {props.min}</small></div>  : ""  }  
                 {max ? <div><small className="text-danger">Please enter value less than {props.max}</small></div>  : ""  }  
                 </div>
-                <div className='pb-2'>
-                <button className='btn btn-primary' onClick={validateNumber}>Validate Number</button>
+                <div className='row'>         
+                    <div className='pb-2 col-3'>
+                    <button className='btn btn-primary' onClick={validateNumber}>Validate Number</button>
+                    </div>
+                    <div className='pb-2 col-3'>
+                    <button className='btn btn-primary' onClick={setInit}>set init value</button>
+                    </div>
+                    <div className='pb-2 col-3'>
+                    <button className='btn btn-primary' onClick={setValue}>set value</button>
+                    </div>
+                    <div className='pb-2 col-3'>
+                    <button className='btn btn-primary' onClick={setValue}>Blank</button>
+                    </div>
                 </div>
-                <div className='pb-2'>
-                <button className='btn btn-primary' onClick={setInit}>set init value</button>
-                </div>
-                <div className='pb-2'>
-                <button className='btn btn-primary' onClick={setValue}>set value</button>
-                </div>
-                <div className='pb-2'>
-                <button className='btn btn-primary' onClick={setValue}>Blank</button>
-                </div>
+      
             </div>
         </>
     );

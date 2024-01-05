@@ -20,12 +20,15 @@ export default function Textdnr(props){
 
 
 
-  console.debug("text props", props)
   let debug = false
+  if(debug) console.debug("textdnr props", props)
 
   let [textonly, setText] = useState(props.value ? props.value : "")
   let [errRequired, setErrRequired] = useState(props.required === true ? false : true)
   let [textclass, setTextClass] = useState(props.class ? props.class : "form-control col-6")
+  let [dontknow, setTextdontknow] = useState(false)
+  let [refused, setTextrefused] = useState(false)
+  let [valid, setValid] = useState(false)
 
   //on text change
   const handleOnChange = (event) => {
@@ -37,12 +40,16 @@ export default function Textdnr(props){
 const handleOnCheckboxChange = (event) => {
   if(debug) console.debug("handleOnCheckboxChange", event.target.checked)
   if(event.target.checked){
+      setTextdontknow(event.target.id === "textdontknow" ? true : "")
+      setTextrefused(event.target.id === "textrefused" ? true : "")
       document.getElementById("textrefused").disabled = true; 
       document.getElementById("textdontknow").disabled = true; 
       setText("")
       document.getElementById(props.id).disabled = true; 
       document.getElementById(event.target.id).disabled = false; 
     }else{
+      setTextdontknow(event.target.id === "textdontknow" ? false : "")
+      setTextrefused(event.target.id === "textrefused" ? false : "")
       document.getElementById("textrefused").disabled = false; 
       document.getElementById("textdontknow").disabled = false; 
       document.getElementById(props.id).disabled = false;
@@ -50,17 +57,24 @@ const handleOnCheckboxChange = (event) => {
   }
 
   //validation
-  const validateText = () => {
-    if(debug) console.debug("validateText called")
+  const validateTextdnr = () => {
+    if(debug) console.debug("validateTextdnr called")
  
-    if(textonly){
+    if(textonly || dontknow || refused){
         setErrRequired(false)
         setTextClass("form-control is-valid")
+        setValid(true)
       }else{
         setErrRequired(true)
         setTextClass("form-control is-invalid")
+        setValid(false)
     }      
   }
+
+    //validateComponent
+    if(props.validateComponent){
+      validateTextdnr()
+    }
 
   //set Initial value
   const setInit = () => {
@@ -76,7 +90,7 @@ const handleOnCheckboxChange = (event) => {
 
   return (
     <>
-    <div className='row px-3'>
+    <div className='row ps-4'>
       <div className='col-12 p-0'>
           <label htmlFor={props.id} className="form-label col-12">{props.qtext}</label>
           {props.help ? <div className="fw-bold small col-12">{props.help}</div> : ""} 
@@ -96,22 +110,25 @@ const handleOnCheckboxChange = (event) => {
               Refused
             </label>
       </div>
-      <div className='col-12'>
+      <div className='col-12 pb-3'>
           {props.hint ? <div><small className="text-primary fst-italic">{props.hint}</small></div>  : ""  }  
           {(props.required && errRequired) ? <div><small className="text-danger">This field is required</small></div>  : ""  }  
       </div>
-          <div className='pb-2'>
-          <button className='btn btn-primary' onClick={validateText}>Validate Text</button>
+      <div className='row'>
+          <div className='pb-2 col-3'>
+          <button className='btn btn-primary' onClick={validateTextdnr}>Validate Text</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setInit}>set init value</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setValue}>set value</button>
           </div>
-          <div className='pb-2'>
+          <div className='pb-2 col-3'>
           <button className='btn btn-primary' onClick={setValue}>Blank</button>
           </div>
+      </div>
+    {/* {valid ? <div><h1 className="text-success fst-italic">valid</h1></div>  : <div><h1 className="text-danger fst-italic">Invalid</h1></div>  }   */}
     </div>
     </>
   );
