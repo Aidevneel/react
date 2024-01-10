@@ -16,9 +16,11 @@ Text.defaultProps = {
   class :"form-control",
 }
 
+export function test(value){
+  console.debug("test", value)
+}
+
 export default function Text(props){
-
-
 
   let debug = false
   if(debug) console.debug("text props", props)
@@ -46,14 +48,8 @@ export default function Text(props){
         props.showAlert("Please input correct values", "Validation:", "danger") //it calls showalert function from app.js
     }  
     
-  //  props.validateClick(false)
   }
 
-  //validateComponent
-  console.debug("props.validateComponent",props.validateComponent)
-  if(props.validateComponent === true ? true : false){
-    validateText()
-  }
 
   //copy text
   const copyText = () => {
@@ -77,7 +73,7 @@ export default function Text(props){
   //set value
   const setValue = () => {
       if(debug) console.debug("setInit called")
-      setText("example")       
+      setText("value")       
   }
 
   return (

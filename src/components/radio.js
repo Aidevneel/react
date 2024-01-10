@@ -66,7 +66,6 @@ export default function Radio(props){
       if(debug) console.debug("setInit called")  
   }
 
-
   return (
     <>
     <div className="row ps-4">

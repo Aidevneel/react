@@ -1,12 +1,18 @@
 // import logo from './logo.svg';
 import './App.css';
-import Text from './components/text'
+import Text, {test} from './components/text'
 import Textdnr from './components/textdnr'
 import Number from './components/number'
 import Radio from './components/radio'
 import Mynavbar from './components/navbar'
 import Alert from './components/alert'
 import { useState } from 'react'; //for remember component and display something
+import {BrowserRouter as Router,
+        Routes,
+        Route,
+        Link
+      } from "react-router-dom"
+import Goto from './components/goto';
 
 let radio = [
   {
@@ -28,11 +34,11 @@ let radio = [
 
 function App(){  
 
-  const [validatePage, setValidatePage] = useState(false)
   const validateClick = () => {
-    setValidatePage(true)
+    test("true")
   }
 
+  //dark mode
   const [mode, setMode] = useState("light")
   const toggleMode = () =>{
     if(mode === "light"){
@@ -44,11 +50,10 @@ function App(){
       document.body.style.backgroundColor = 'white'
       showAlert("Light mode is set", "Note:", "success")
     }
-  }
+  }  
   
-  
+  //alert
   const [alertValues, setAlertValues] = useState({})
-
   const showAlert = (message, title, type) => {
     setAlertValues({
       "message" : message,
@@ -60,22 +65,45 @@ function App(){
      }, 1500);
   }
 
+  
+
   return (
     <>
+      <Router>
+        <Mynavbar title="Neel's Navbar" mode={mode} toggleMode={toggleMode}/>
+        <Routes>
 
-      <Mynavbar title="Neel's Navbar" home="Myhome" about={56} mode={mode} toggleMode={toggleMode}/>
+          <Route path="/"></Route>
 
-      <Alert alert={alertValues} /> {/* alert also used in text validation */}
+          <Route path="/text" 
+          element={
+            <div>
+              <Text showAlert={showAlert} id="text" hint="my hint" help="my help" qtext="what is your name" placeholder="enter your name" value="" required={true}/> 
+              <Text showAlert={showAlert} id="texts" hint="my shint" help="my shelp" qtext="what sis your name" placeholder="entesr your name" value="" required={true}/> 
+            </div>
+          }></Route>
 
-      <Text validateClick={validateClick} validateComponent={validatePage} showAlert={showAlert} id="text" hint="my hint" help="my help" qtext="what is your name" placeholder="enter your name" value="" required={true}/>
+          <Route path="/number" element={<Number id="num" hint="my num hint" help="my num help" qtext="what is your age" placeholder="enter your age" value={5} required={true} min={18} max={30}/>}></Route>
+          
+          <Route path="/textdnr" element={<Textdnr id="textdnr" hint="my hint" help="my help" qtext="what is your name" placeholder="enter your name" value="" required={true}/>}></Route>
 
-      <Number validateComponent={false} id="num" hint="my num hint" help="my num help" qtext="what is your age" placeholder="enter your age" value={5} required={true} min={18} max={30}/>
+          <Route path="/radio" element={ <Radio options={radio} id="radio" hint="my hint" help="my help" qtext="select your option" placeholder="enter your name" value={3} required={true}/> }></Route>
 
-      <Textdnr validateComponent={false} id="textdnr" hint="my hint" help="my help" qtext="what is your name" placeholder="enter your name" value="" required={true}/>
+          <Route path="*" element={<h1>Page not found :(</h1> }></Route>
 
-      {/* <Radio options={radio} id="radio" hint="my hint" help="my help" qtext="select your option" placeholder="enter your name" value={3} required={true}/> */}
+          {/* nested route  */}
+          <Route path="/nested">
+            <Route path="work" element={<h1>Nested route working</h1> }></Route>
+          </Route>      
 
-      <button onClick={validateClick}> Validate Page</button>
+        </Routes>
+        <Goto/>
+      </Router>
+      <br />
+
+    <Alert alert={alertValues} /> {/* alert also used in text validation */}
+
+    {/* <button className='btn btn-primary m-2' onClick={validateClick}> Validate Page</button> */}
 
     </>
   );
