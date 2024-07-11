@@ -6,6 +6,7 @@ import Number from './components/number'
 import Radio from './components/radio'
 import Mynavbar from './components/navbar'
 import Alert from './components/alert'
+import PwdGenerator from './components/PwdGenerator';
 import { useState } from 'react'; //for remember component and display something
 import {BrowserRouter as Router,
         Routes,
@@ -88,6 +89,8 @@ function App(){
           <Route path="/textdnr" element={<Textdnr id="textdnr" hint="my hint" help="my help" qtext="what is your name" placeholder="enter your name" value="" required={true}/>}></Route>
 
           <Route path="/radio" element={ <Radio options={radio} id="radio" hint="my hint" help="my help" qtext="select your option" placeholder="enter your name" value={3} required={true}/> }></Route>
+
+          <Route path="/PwdGenerator" element={ <PwdGenerator/> }></Route>
 
           <Route path="*" element={<h1>Page not found :(</h1> }></Route>
 

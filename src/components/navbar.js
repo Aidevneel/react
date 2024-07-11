@@ -27,6 +27,9 @@ function Mynavbar(props){
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/radio">radio</NavLink>
                     </li>
+                    <li className="nav-item">
+                    <NavLink className="nav-link" to="/PwdGenerator">PwdGenerator</NavLink>
+                    </li>
                 </ul>
                 </div>
                 <div className="form-check form-switch">

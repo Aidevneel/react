@@ -1,0 +1,61 @@
+readme
+1. react fragment : <> </>
+2. props: for passing value to component <Text text={'neel'} /> for access in component => props.text
+
+you can also pass other components as prop : 
+<Parent>
+    <Child />
+</Parent>
+this is called composition
+for access => props.childern
+
+3. events => (popular build-in events are:)
+    i. <button onClick={handleClick} />
+    ii. <input onChange={handleChange} />
+    iii. <form onSubmit={handleSubmit} />
+
+3.state: (it is like snapshot of image)
+    i. useState() :
+        const[varname,funName for update var] = useState(starting value) 
+        ex., 
+            const[likes,setLikes] = useState(0) 
+            const handleClick = () => {
+                setLikes(likes + 1)
+            }
+            return(
+                <button onClick={handleClick}>
+                Likes: {likes}
+                </button>
+            )
+    ii. useReducer()
+
+4. hooks: 5 types
+    i. state hooks:
+        (1) useState()      **most use
+        (2) useReducer()
+    ii. context hooks: 
+        (1) useContext()
+            pass same data to multiple components without making prop,
+        you need to create context at parent component and thn wrap that component in special component called like this : 
+        <AppContext.Provider value={data you need in multiple components}>
+            <App />
+        </AppContext.Provider>
+        for access :
+            function Title(){
+                const text = useContext(AppContext)
+                return<h1>{text}</h1>
+            }
+    iii. reference hooks:      
+        (1) useRef()            **most use
+            for intract with actual DOM element insted of using react way (like if u want to use focus event of input it is much easier to do with actual dom)
+    iv. effect hooks:   
+        (1) useEffect()         **most use
+            for use external resource or call apis
+    v. performance hooks:
+        (1) useMemo()
+        (2) useCallback()
+
+
+1. use Callback: used for optimization it calls the function inside it when the dependencies are changed and returns a memorized function 
+2.useeffect: runs the function inside it whenever the page renders first-time or dependencies are changed
+3.use ref : used to give reference of selected components in our page so that functions can be performed on referenced values
